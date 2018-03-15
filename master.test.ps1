@@ -88,7 +88,13 @@ function Detect {
     $filex64 = Test-Path 'C:\Program Files (x86)\foo\bar.exe'
 
     $detected = $filex86 -or $filex64
-    
+
+    # File Version Detection
+    $filevx86 = (get-item "C:\Program Files\Foo\bar.exe").VersionInfo.FileVersion
+    $filevx64 = (get-item "C:\Program Files (x86)\Foo\bar.exe").VersionInfo.FileVersion
+    $minversion = New-Object System.Version("1.0.0")
+
+    $detected = ($filevx86 -ge $minversion) -or ($filevx64 -ge $minversion)
 
     # Registry Detection
     $regx86 = Test-Path "HKLM:\SOFTWARE\Microsoft\Foo"
